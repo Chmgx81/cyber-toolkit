@@ -5,30 +5,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passwordInput.addEventListener('input', () => {
         const password = passwordInput.value;
-        const strength = checkPasswordStrength(password);
-        updateStrengthMeter(strength);
+        const strengthResult = checkPasswordStrength(password);
+        updateStrengthMeter(strengthResult.score, strengthResult.feedback);
     });
 
     function checkPasswordStrength(password) {
         let score = 0;
-        if (password.length === 0) return 0;
-        if (password.length >= 8) score++;
-        if (password.length >= 12) score++;
-        if (/[A-Z]/.test(password)) score++;
-        if (/[a-z]/.test(password)) score++;
-        if (/[0-9]/.test(password)) score++;
-        if (/[^A-Za-z0-9]/.test(password)) score++;
-        
-        if (score <= 2) return 1; // Weak
-        if (score <= 4) return 2; // Medium
-        if (score <= 5) return 3; // Strong
-        return 4; // Very Strong
+        let feedback = [];
+        if (password.length === 0) return { score: 0, feedback: [] };
+
+        if (password.length < 8) {
+            feedback.push("Too short");
+        } else if (password.length >= 12) {
+            score += 2;
+        } else {
+            score++;
+        }
+
+        if (/[A-Z]/.test(password)) {
+            score++;
+        } else {
+            feedback.push("Add uppercase letters");
+        }
+
+        if (/[a-z]/.test(password)) {
+            score++;
+        } else {
+            feedback.push("Add lowercase letters");
+        }
+
+        if (/[0-9]/.test(password)) {
+            score++;
+        } else {
+            feedback.push("Add numbers");
+        }
+
+        if (/[^A-Za-z0-9]/.test(password)) {
+            score++;
+        } else {
+            feedback.push("Add symbols");
+        }
+
+        let strengthLevel = 0;
+        if (score <= 2) strengthLevel = 1; // Weak
+        else if (score <= 4) strengthLevel = 2; // Medium
+        else if (score <= 5) strengthLevel = 3; // Strong
+        else strengthLevel = 4; // Very Strong
+
+        return { score: strengthLevel, feedback: feedback.join(', ') };
     }
 
-    function updateStrengthMeter(strength) {
+    function updateStrengthMeter(strength, feedback) {
         let width = '0%';
         let color = 'var(--weak-red)';
-        let text = '';
+        let text = feedback || '';
 
         switch (strength) {
             case 0:
@@ -38,12 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
             case 1:
                 width = '25%';
                 color = 'var(--weak-red)';
-                text = 'Weak';
+                text = 'Weak. ' + feedback;
                 break;
             case 2:
                 width = '50%';
                 color = 'var(--medium-orange)';
-                text = 'Medium';
+                text = 'Medium. ' + feedback;
                 break;
             case 3:
                 width = '75%';
@@ -61,6 +91,67 @@ document.addEventListener('DOMContentLoaded', () => {
         strengthBar.style.backgroundColor = color;
         strengthText.textContent = text;
         strengthText.style.color = color;
+    }
+
+    // --- Breach History Checker ---
+    const breachCheckInput = document.getElementById('breach-check-input');
+    const breachCheckBtn = document.getElementById('breach-check-btn');
+    const breachResult = document.getElementById('breach-result');
+
+    breachCheckBtn.addEventListener('click', async () => {
+        const password = breachCheckInput.value;
+        if (!password) {
+            return;
+        }
+
+        breachResult.style.display = 'none';
+        breachCheckBtn.textContent = 'Checking...';
+        breachCheckBtn.disabled = true;
+
+        try {
+            const sha1Password = await sha1(password);
+            const prefix = sha1Password.substring(0, 5);
+            const suffix = sha1Password.substring(5).toUpperCase();
+            
+            const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`);
+            if (!response.ok) {
+                throw new Error('Could not fetch breach data.');
+            }
+            const data = await response.text();
+            const pwnedCount = getPwnedCount(data, suffix);
+
+            displayBreachResult(pwnedCount);
+
+        } catch (error) {
+            breachResult.style.display = 'block';
+            breachResult.className = 'breach-result pwned';
+            breachResult.textContent = 'Error: Could not check password. Please try again later.';
+        } finally {
+            breachCheckBtn.textContent = 'Check Now';
+            breachCheckBtn.disabled = false;
+        }
+    });
+
+    function getPwnedCount(hashes, hashSuffix) {
+        const lines = hashes.split('\n');
+        for (const line of lines) {
+            const [hash, count] = line.split(':');
+            if (hash === hashSuffix) {
+                return parseInt(count, 10);
+            }
+        }
+        return 0;
+    }
+
+    function displayBreachResult(count) {
+        breachResult.style.display = 'block';
+        if (count > 0) {
+            breachResult.className = 'breach-result pwned';
+            breachResult.textContent = `Oh no! This password has been found in ${count.toLocaleString()} data breaches. It is not secure.`;
+        } else {
+            breachResult.className = 'breach-result safe';
+            breachResult.textContent = 'Good news! This password was not found in any known data breaches.';
+        }
     }
 
     // --- Password Generator ---
@@ -174,4 +265,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         passphraseField.textContent = passphrase;
     });
+
+    // --- SHA-1 Helper Function ---
+    async function sha1(str) {
+        const buffer = new TextEncoder('utf-8').encode(str);
+        const digest = await crypto.subtle.digest('SHA-1', buffer);
+        return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
 });

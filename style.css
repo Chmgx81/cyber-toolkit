@@ -70,10 +70,44 @@ p {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-#password-input:focus {
+#password-input:focus, #breach-check-input:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.breach-checker-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#breach-check-input {
+    flex-grow: 1;
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.breach-result {
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    display: none; /* Hidden by default */
+}
+
+.breach-result.safe {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.breach-result.pwned {
+    background-color: #f8d7da;
+    color: #842029;
 }
 
 .strength-meter {
