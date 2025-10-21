@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (/[0-9]/.test(password)) score++;
         if (/[^A-Za-z0-9]/.test(password)) score++;
         
-        // Simple score mapping to strength levels 1-4
         if (score <= 2) return 1; // Weak
         if (score <= 4) return 2; // Medium
         if (score <= 5) return 3; // Strong
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateStrengthMeter(strength) {
         let width = '0%';
-        let color = '#d9534f'; // Default: Weak (red)
+        let color = 'var(--weak-red)';
         let text = '';
 
         switch (strength) {
@@ -38,22 +37,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             case 1:
                 width = '25%';
-                color = '#d9534f'; // Weak (red)
+                color = 'var(--weak-red)';
                 text = 'Weak';
                 break;
             case 2:
                 width = '50%';
-                color = '#f0ad4e'; // Medium (orange)
+                color = 'var(--medium-orange)';
                 text = 'Medium';
                 break;
             case 3:
                 width = '75%';
-                color = '#5bc0de'; // Strong (blue)
+                color = 'var(--strong-blue)';
                 text = 'Strong';
                 break;
             case 4:
                 width = '100%';
-                color = '#5cb85c'; // Very Strong (green)
+                color = 'var(--very-strong-green)';
                 text = 'Very Strong';
                 break;
         }
@@ -85,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const includeUppercase = uppercaseInput.checked;
         const includeNumbers = numbersInput.checked;
         const includeSymbols = symbolsInput.checked;
-
         generatedPasswordField.textContent = generatePassword(length, includeUppercase, includeNumbers, includeSymbols);
     });
 
@@ -116,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Premium Feature & Monetization ---
     const unlockBtn = document.getElementById('unlock-btn');
-    const modal = document.getElementById('crypto-modal');
+    const cryptoModal = document.getElementById('crypto-modal');
     const closeBtn = document.querySelector('.close-btn');
     const walletAddressInput = document.getElementById('wallet-address');
     const copyWalletBtn = document.getElementById('copy-wallet-btn');
@@ -127,16 +125,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const generatePassphraseBtn = document.getElementById('generate-passphrase-btn');
     const passphraseField = document.getElementById('generated-passphrase');
 
-    // --- IMPORTANT: Replace with your actual wallet address ---
-    walletAddressInput.value = "0x93Ce4c64906ba99B0ea7e1B85B396509a38419E1"; 
-    // ---
+    walletAddressInput.value = "0x93Ce4c64906ba99B0ea7e1B85B396509a38419E1";
+
+    // Ensure the modal is hidden on page load
+    cryptoModal.classList.add('hidden');
 
     unlockBtn.addEventListener('click', () => {
-        modal.classList.remove('hidden');
+        cryptoModal.classList.remove('hidden');
     });
 
     closeBtn.addEventListener('click', () => {
-        modal.classList.add('hidden');
+        cryptoModal.classList.add('hidden');
     });
 
     copyWalletBtn.addEventListener('click', () => {
@@ -149,27 +148,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     verifyTxBtn.addEventListener('click', () => {
-        // Basic "verification": check if the user entered anything.
-        // In a real app, you'd use an API to check the transaction on the blockchain.
         if (txidInput.value.trim() !== '') {
             alert('Payment verified! Premium feature unlocked.');
-            modal.classList.add('hidden');
+            cryptoModal.classList.add('hidden');
             lockedFeature.classList.add('hidden');
             unlockedFeature.classList.remove('hidden');
-            // Optional: Save unlock status in localStorage
             localStorage.setItem('premiumUnlocked', 'true');
         } else {
             alert('Please enter a valid Transaction Hash.');
         }
     });
 
-    // Check if the feature was already unlocked
     if (localStorage.getItem('premiumUnlocked') === 'true') {
         lockedFeature.classList.add('hidden');
         unlockedFeature.classList.remove('hidden');
     }
 
-    // Passphrase Generator Logic
     const words = ["apple", "bicycle", "galaxy", "mountain", "ocean", "sunshine", "guitar", "pizza", "wizard", "robot", "dragon", "castle", "forest", "river", "diamond", "purple", "happy", "clever", "strong", "silent"];
 
     generatePassphraseBtn.addEventListener('click', () => {
