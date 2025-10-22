@@ -1,134 +1,145 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 :root {
-    --primary-color: #007bff;
-    --primary-hover: #0056b3;
-    --background-color: #f8f9fa;
+    --background-color: #f5f5f5;
     --container-bg: #ffffff;
     --text-color: #212529;
     --muted-text: #6c757d;
-    --border-color: #dee2e6;
-    --shadow-color: rgba(0, 0, 0, 0.05);
-    --weak-red: #dc3545;
-    --medium-orange: #fd7e14;
-    --strong-blue: #0d6efd;
-    --very-strong-green: #198754;
+    --border-color: #ced4da;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --safe-green: #2a9d8f;
+    --pwned-red: #e76f51;
+    --button-bg: #264653;
+    --button-hover: #2a9d8f;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
     margin: 0;
-    padding: 1rem;
+    padding: 2rem;
 }
 
 .container {
     background-color: var(--container-bg);
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px var(--shadow-color);
+    padding: 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
     width: 100%;
-    max-width: 550px;
+    max-width: 800px;
     text-align: center;
 }
 
-h1 {
-    font-size: 2rem;
+.main-tool h1 {
+    font-size: 3.5rem;
     font-weight: 700;
-    margin-bottom: 2rem;
+    margin: 0;
+    color: #264653;
 }
 
-h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-color);
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.75rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1.5rem;
-}
-
-p {
+.main-tool .subtitle {
+    font-size: 1.25rem;
     color: var(--muted-text);
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
-}
-
-#password-input {
-    width: 100%;
-    padding: 12px 16px;
-    font-size: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-#password-input:focus, #breach-check-input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    margin-bottom: 2rem;
 }
 
 .breach-checker-form {
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 #breach-check-input {
     flex-grow: 1;
-    width: 100%;
-    padding: 12px 16px;
-    font-size: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    border: none;
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+
+#breach-check-input:focus {
+    outline: none;
+}
+
+#breach-check-btn {
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    padding: 0 2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#breach-check-btn:hover {
+    background-color: var(--button-hover);
 }
 
 .breach-result {
-    padding: 1rem;
+    margin-top: 1.5rem;
+    padding: 1.5rem;
     border-radius: 8px;
+    font-size: 1.2rem;
     font-weight: 500;
-    display: none; /* Hidden by default */
+    display: none;
 }
 
 .breach-result.safe {
-    background-color: #d1e7dd;
-    color: #0f5132;
+    background-color: var(--safe-green);
+    color: white;
 }
 
 .breach-result.pwned {
-    background-color: #f8d7da;
-    color: #842029;
+    background-color: var(--pwned-red);
+    color: white;
+}
+
+/* Secondary Tools Styling */
+.tool-module {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e9ecef;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+#password-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
 }
 
 .strength-meter {
-    width: 100%;
-    height: 8px;
+    height: 6px;
     background-color: #e9ecef;
-    border-radius: 4px;
+    border-radius: 3px;
     overflow: hidden;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 .strength-bar {
     height: 100%;
     width: 0;
-    background-color: var(--weak-red);
     transition: width 0.3s ease, background-color 0.3s ease;
 }
 
 #strength-text {
     font-weight: 500;
-    min-height: 24px;
+    min-height: 20px;
     font-size: 0.9rem;
 }
 
@@ -136,100 +147,55 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--background-color);
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    word-break: break-all;
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
 }
 
 #generated-password, #generated-passphrase {
-    font-family: "SF Mono", "Courier New", Courier, monospace;
-    color: var(--text-color);
+    font-family: monospace;
     font-size: 1.1rem;
 }
 
 button {
     border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 1rem;
     font-weight: 500;
-    transition: background-color 0.2s, transform 0.1s;
+    padding: 10px 15px;
+    transition: background-color 0.2s;
 }
 
-button:hover {
-    transform: translateY(-1px);
-}
-
-button:active {
-    transform: translateY(0);
-}
-
-#copy-btn, #generate-btn, #generate-passphrase-btn, #verify-tx-btn, #copy-wallet-btn {
-    background-color: var(--primary-color);
+#generate-btn, #generate-passphrase-btn {
+    background-color: #6c757d;
     color: white;
+    width: 100%;
 }
 
-#copy-btn:hover, #generate-btn:hover, #generate-passphrase-btn:hover, #verify-tx-btn:hover, #copy-wallet-btn:hover {
-    background-color: var(--primary-hover);
+#generate-btn:hover, #generate-passphrase-btn:hover {
+    background-color: #5a6268;
 }
 
 .generator-options {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
     text-align: left;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .option {
     display: flex;
     align-items: center;
-    background-color: var(--background-color);
-    padding: 10px;
-    border-radius: 8px;
-}
-
-.option label {
-    margin-right: auto;
-    padding-left: 0.5rem;
-}
-
-.option input[type="number"] {
-    width: 60px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 5px;
 }
 
 .premium-feature {
-    background: linear-gradient(45deg, #fffbeb, #fff);
-    border: 1px solid #ffdd77;
-    border-radius: 12px;
-    padding: 2rem;
-}
-
-.premium-tag {
-    background-color: #ffc107;
-    color: #343a40;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    display: inline-block;
-    margin-left: 0.5rem;
-}
-
-#unlock-btn {
-    background-color: #ffc107;
-    color: #212529;
-    font-weight: 600;
-}
-
-#unlock-btn:hover {
-    background-color: #e0a800;
+    background-color: #fff9e6;
+    border: 1px solid #ffe58f;
+    border-radius: 8px;
+    padding: 1.5rem;
 }
 
 .hidden {
@@ -252,39 +218,8 @@ button:active {
 
 .modal-content {
     background-color: var(--container-bg);
-    padding: 2.5rem;
-    border-radius: 12px;
+    padding: 2rem;
+    border-radius: 8px;
     width: 90%;
     max-width: 500px;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.close-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 2.5rem;
-    color: #aaa;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.close-btn:hover {
-    color: #333;
-}
-
-.wallet-info, .txid-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-}
-
-.wallet-info input, .txid-info input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-sizing: border-box;
 }

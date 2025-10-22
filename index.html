@@ -8,28 +8,26 @@
 </head>
 <body>
     <div class="container">
-        <h1>Secure Password Toolkit</h1>
+
+        <!-- Breach History Checker -->
+        <div class="tool-module main-tool">
+            <h1>pwned?</h1>
+            <p class="subtitle">Check if your password has appeared in a data breach.</p>
+            <div class="breach-checker-form">
+                <input type="password" id="breach-check-input" placeholder="Enter password to check...">
+                <button id="breach-check-btn">Check</button>
+            </div>
+            <div id="breach-result" class="breach-result"></div>
+        </div>
 
         <!-- Password Strength Analyzer -->
         <div class="tool-module">
             <h2>Password Strength Analyzer</h2>
-            <p>Enter a password to check its strength.</p>
             <input type="text" id="password-input" placeholder="Enter your password...">
             <div class="strength-meter">
                 <div id="strength-bar" class="strength-bar"></div>
             </div>
             <p id="strength-text"></p>
-        </div>
-
-        <!-- Breach History Checker -->
-        <div class="tool-module">
-            <h2>Breach History Checker</h2>
-            <p>Check if your password has appeared in a data breach.</p>
-            <div class="breach-checker-form">
-                <input type="password" id="breach-check-input" placeholder="Enter password to check...">
-                <button id="breach-check-btn">Check Now</button>
-            </div>
-            <div id="breach-result" class="breach-result"></div>
         </div>
 
         <!-- Secure Password Generator -->
@@ -64,11 +62,10 @@
         <div class="tool-module premium-feature">
             <h2>Secure Passphrase Generator <span class="premium-tag">Premium</span></h2>
             <div id="passphrase-generator-locked">
-                <p>Generate memorable, human-readable passphrases like "correct-horse-battery-staple".</p>
+                <p>Generate memorable, human-readable passphrases.</p>
                 <button id="unlock-btn">Unlock with Crypto</button>
             </div>
             <div id="passphrase-generator-unlocked" class="hidden">
-                <p>Generate a secure passphrase below.</p>
                 <div class="generated-password-container">
                     <span id="generated-passphrase">---</span>
                 </div>
@@ -83,13 +80,12 @@
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <h2>Unlock Premium Features</h2>
-            <p>To unlock this feature, please send a one-time payment of <strong>1 USDC</strong> on the <strong>Polygon Network</strong> to the address below.</p>
+            <p>Send <strong>1 USDC</strong> on the <strong>Polygon Network</strong> to the address below.</p>
             <div class="wallet-info">
-                <label>USDC (Polygon) Address:</label>
                 <input type="text" id="wallet-address" value="YOUR_WALLET_ADDRESS_HERE" readonly>
                 <button id="copy-wallet-btn">Copy Address</button>
             </div>
-            <p>After sending, paste the Transaction Hash (TxID) below to verify and unlock.</p>
+            <p>After sending, paste the Transaction Hash (TxID) below to verify.</p>
             <div class="txid-info">
                 <input type="text" id="txid-input" placeholder="Paste Transaction Hash here...">
                 <button id="verify-tx-btn">Verify Payment</button>
